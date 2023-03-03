@@ -2,12 +2,17 @@ from django import forms
 
 from .models import ConversationMessage
 
+INPUT_CLASSES = 'w-full py-4 px-6 rounded-xl border'
+
 class ConversationMessageForm(forms.ModelForm):
     class Meta:
         model = ConversationMessage
-        fields = ('content',)
+        fields = ('cover_letter', 'curriculum_vitae')
         widgets = {
-            'content': forms.Textarea(attrs={
-                'class': 'w-full py-4 px-6 rounded-xl border'
+            'cover_letter': forms.Textarea(attrs={
+                'class': INPUT_CLASSES
+            }),
+            'curriculum_vitae': forms.FileInput(attrs={
+                'class': INPUT_CLASSES
             })
         }

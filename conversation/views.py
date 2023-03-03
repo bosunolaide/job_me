@@ -5,7 +5,7 @@ from .forms import ConversationMessageForm
 from .models import Conversation
 
 @login_required
-def new_conversation(request, job_pk):
+def new_application(request, job_pk):
     job = get_object_or_404(Job, pk=job_pk)
 
     if job.created_by == request.user:
@@ -17,7 +17,7 @@ def new_conversation(request, job_pk):
         return redirect('conversation:detail', pk=conversations.first().id)
 
     if request.method == 'POST':
-        form = ConversationMessageForm(request.POST)
+        form = ConversationMessageForm(request.POST, request.FILES)
 
         if form.is_valid():
             conversation = Conversation.objects.create(job=job)

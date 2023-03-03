@@ -14,6 +14,7 @@ class Conversation(models.Model):
     
 class ConversationMessage(models.Model):
     conversation = models.ForeignKey(Conversation, related_name='messages', on_delete=models.CASCADE)
-    content = models.TextField()
+    cover_letter = models.TextField()
+    curriculum_vitae = models.FileField(upload_to='cv_pdfs/', default="0000.pdf")
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, related_name='created_messages', on_delete=models.CASCADE)
