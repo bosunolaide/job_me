@@ -21,18 +21,18 @@ def contact(request):
 def about(request):
     return render(request, 'core/about-us.html')
 
-def jobseeker_signup(request):
+def signup(request):
     if request.method == 'POST':
         form = JobSeekerSignupForm(request.POST)
 
         if form.is_valid():
             form.save()
 
-            return redirect('/jobseeker-login/')
+            return redirect('/login/')
     else:
         form = JobSeekerSignupForm()
 
-    return render(request, 'core/jobseeker-signup.html', {
+    return render(request, 'core/signup.html', {
         'form': form
     })
 

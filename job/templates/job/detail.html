@@ -1,21 +1,21 @@
 {% extends 'core/base.html' %}
 
-{% block title %}{{ job.name }}{% endblock %}
+{% block title %}{{ job.job_title }}{% endblock %}
 
 {% block content %}
 <div class="grid grid-cols-5 gap-6">
-    <div class="col-span-3">
-        <img src="{{ job.image.url }}" class="rounded-xl">
+    <div class="col-span-1">
+        <img src="{{ job.company_logo.url }}" class="rounded-xl">
     </div>
 
-    <div class="col-span-2 p-6 bg-gray-100 rounded-xl">
-        <h1 class="mb-6 text-3xl">{{ job.name }}</h1>
+    <div class="col-span-4 p-6 bg-gray-100 rounded-xl">
+        <h1 class="mb-6 text-3xl">{{ job.job_title }}</h1>
         <p class="text-gray-500"><strong>Created by: </strong>{{ job.created_by.username }}</p>
     
-        {% if job.description %}
+        {% if job.job_description %}
             <p class="text-gray-700">
-                <strong class="text-gray-500">Description:</strong><br>
-                {{ job.description }}
+                <strong class="text-gray-500">Job Description:</strong><br>
+                {{ job.job_description }}
             </p>
         {% endif %}
 
@@ -40,11 +40,11 @@
             <div>
                 <a href="{% url 'job:detail' job.id %}">
                     <div>
-                        <img src="{{ job.image.url }}" class="rounded-t-xl">
+                        <img src="{{ job.company_logo.url }}" class="rounded-t-xl">
                     </div>
 
                     <div class="p-6 bg-white rounded-b-xl">
-                        <h2 class="text-2xl">{{ job.name }}</h2>
+                        <h2 class="text-2xl">{{ job.job_title }}</h2>
                     </div>
                 </a>
             </div>

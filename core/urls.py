@@ -10,8 +10,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('contact-us/', views.contact, name='contact-us'),
     path('about-us/', views.about, name='about-us'),
-    path('jobseeker-signup/', views.jobseeker_signup, name='jobseeker-signup'),
+    path('signup/', views.signup, name='signup'),
     path('organization-signup/', views.organization_signup, name='organization-signup'),
-    path('jobseeker-login/', auth_views.LoginView.as_view(template_name='core/jobseeker-login.html', authentication_form=JobSeekerLoginForm), name='jobseeker-login'),
+    path('login/', auth_views.LoginView.as_view(template_name='core/login.html', authentication_form=JobSeekerLoginForm), name='login'),
     path('organization-login/', auth_views.LoginView.as_view(template_name='core/organization-login.html', authentication_form=OrganizationLoginForm), name='organization-login'),
 ]

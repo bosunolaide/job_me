@@ -3,6 +3,7 @@
 {% block title %}Jobs{% endblock %}
 
 {% block content %}
+<h1 class="mb-6 text-3xl">Jobs</h1>
     <div class="pb-6 grid grid-cols-4 gap-4 bg-gray-100">
         <div class="col-span-1">
             <form method="get" action="{% url 'job:jobs' %}">
@@ -47,11 +48,11 @@
                     <div>
                         <a href="{% url 'job:detail' job.id %}">
                             <div>
-                                <img src="{{ job.image.url }}" class="rounded-t-xl">
+                                <img src="{{ job.company_logo.url }}" class="rounded-t-xl">
                             </div>
     
                             <div class="p-6 bg-white rounded-b-xl">
-                                <h2 class="text-2xl">{{ job.name }}</h2>
+                                <h2 class="text-2xl">{{ job.job_title }}</h2>
                             </div>
                         </a>
                     </div>
