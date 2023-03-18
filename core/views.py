@@ -1,5 +1,9 @@
 from django.shortcuts import render, redirect
 
+from django.contrib import auth, messages
+
+from django.views.generic import RedirectView
+
 from job.models import Category, Location, Job
 
 from .forms import JobSeekerSignupForm, OrganizationSignupForm
@@ -50,3 +54,13 @@ def organization_signup(request):
     return render(request, 'core/organization-signup.html', {
         'form': form
     })
+
+class LogoutView(RedirectView):
+
+    url = '/login/'
+
+    def get(self, request, *args, **kwargs):
+        auth.logout(request)
+        messages.success(request, 'You have logged out successfully!')
+        return super(LogoutView, self).get(request, *args, **kwargs)
+
