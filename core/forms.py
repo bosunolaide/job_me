@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
+from .models import User
+from django.db import transaction
 
 # Login and Signup forms for Job Seekers 
 class JobSeekerLoginForm(AuthenticationForm):
@@ -14,7 +15,7 @@ class JobSeekerLoginForm(AuthenticationForm):
     }))
 
 class JobSeekerSignupForm(UserCreationForm):
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
     
@@ -35,10 +36,17 @@ class JobSeekerSignupForm(UserCreationForm):
         'class': 'w-full py-4 px-6 rounded-xl'
     }))
 
+    @transaction.atomic
+    def save(self):
+        user = super().save(commit=False)
+        user.is_applicant = True
+        user.save()
+        return user
+
 # Login and Signup forms for Organizations
 class OrganizationLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': 'Your username',
+        'placeholder': 'Your company name',
         'class': 'w-full py-4 px-6 rounded-xl'
     }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -47,12 +55,12 @@ class OrganizationLoginForm(AuthenticationForm):
     }))
 
 class OrganizationSignupForm(UserCreationForm):
-    class Meta:
+    class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('companyname', 'email', 'password1', 'password2')
     
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': 'Your username',
+    companyname = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Your company name',
         'class': 'w-full py-4 px-6 rounded-xl'
     }))
     email = forms.CharField(widget=forms.EmailInput(attrs={
@@ -67,3 +75,11 @@ class OrganizationSignupForm(UserCreationForm):
         'placeholder': 'Repeat password',
         'class': 'w-full py-4 px-6 rounded-xl'
     }))
+
+    @transaction.atomic
+    def save(self):
+        user = super().save(commit=False)
+        user.is_organization = True
+        user.save()
+        return user
+
