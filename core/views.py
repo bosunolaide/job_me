@@ -27,10 +27,22 @@ def about(request):
     return render(request, 'core/about-us.html')
 
 def signup(request):
-    return render(request, 'core/signup.html')
+    form = SignUpForm()
+    if form.user_choice == 'job seeker':
+        return redirect(request, 'core/jobseeker-signup.html')
+    elif form.user_choice == 'organization':
+        return redirect(request, 'core/organization-signup.html')
+    else:
+        return render(request, "core/signup.html", {'form':form})
 
 def login(request):
-    return render(request, 'core/login.html')
+    form = LoginForm()
+    if form.user_choice == 'job seeker':
+        return redirect(request, 'core/jobseeker-login.html')
+    elif form.user_choice == 'organization':
+        return redirect(request, 'core/organization-login.html')
+    else:
+        return render(request, "core/login.html", {'form':form})
 
 class ApplicantSignUpView(CreateView):
     
