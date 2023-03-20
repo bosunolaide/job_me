@@ -3,6 +3,17 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import User
 from django.db import transaction
 
+USER_CHOICES = [
+    ('job seeker', 'Job Seeker'),
+    ('organization', 'Organization'),
+]
+
+class SignUpForm(AuthenticationForm):
+    user_choice = forms.ChoiceField(widget=forms.RadioSelect, choices=USER_CHOICES)
+
+class LoginForm(AuthenticationForm):
+    user_choice = forms.ChoiceField(widget=forms.RadioSelect, choices=USER_CHOICES)
+
 # Login and Signup forms for Job Seekers 
 class JobSeekerLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
