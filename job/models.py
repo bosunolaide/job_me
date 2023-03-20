@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -30,7 +31,7 @@ class Job(models.Model):
     job_description = models.TextField(blank=True, null=True)
     company_logo = models.ImageField(upload_to='job_images', blank=True, null=True)
     is_filled = models.BooleanField(default=False)
-    created_by = models.ForeignKey(User, related_name='jobs', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='jobs', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

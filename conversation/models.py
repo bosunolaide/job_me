@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -5,7 +6,7 @@ from job.models import Job
 
 class Conversation(models.Model):
     job = models.ForeignKey(Job, related_name='conversations', on_delete=models.CASCADE)
-    members = models.ManyToManyField(User, related_name='conversations')
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='conversations')
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -17,4 +18,4 @@ class ConversationMessage(models.Model):
     cover_letter = models.TextField()
     curriculum_vitae = models.FileField(upload_to='cv_pdfs/', default="0000.pdf")
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, related_name='created_messages', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='created_messages', on_delete=models.CASCADE)

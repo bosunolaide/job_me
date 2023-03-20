@@ -14,7 +14,7 @@ urlpatterns = [
     path('accounts/signup/', views.signup, name='signup'),
     path('accounts/signup/job-seekers/', ApplicantSignUpView.as_view(), name='jobseeker-signup'),
     path('accounts/signup/organizations/', OrganizationSignUpView.as_view(), name='organization-signup'),
-    path('accounts/login/', views.login, name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='core/login.html', authentication_form=JobSeekerLoginForm), name='login'),
     path('accounts/login/job-seekers/', ApplicantLoginView.as_view(), name='jobseeker-login'),
     path('accounts/login/organizations/', OrganizationLoginView.as_view(), name='organization-login'),
     path('logout', LogoutView.as_view(), name='logout'),
