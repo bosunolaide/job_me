@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 
+from django.contrib.auth.views import LoginView
+
 from django.contrib import auth, messages
 
 from django.views.generic import RedirectView, CreateView, FormView
@@ -35,14 +37,19 @@ def signup(request):
     else:
         return render(request, "core/signup.html", {'form':form})
 
-def login(request):
-    form = LoginForm()
-    if form.user_choice == 'job seeker':
-        return redirect(request, 'core/jobseeker-login.html')
-    elif form.user_choice == 'organization':
-        return redirect(request, 'core/organization-login.html')
-    else:
-        return render(request, "core/login.html", {'form':form})
+class UserLoginView(LoginView):
+    
+    template_name='core/login.html' 
+    authentication_form=LoginForm
+
+    def login(request):
+        form = LoginForm()
+        if form.user_choice == 'job seeker':
+            return redirect(request, 'core/jobseeker-login.html')
+        elif form.user_choice == 'organization':
+            return redirect(request, 'core/organization-login.html')
+        else:
+            return render(request, "core/login.html", {'form':form})
 
 class ApplicantSignUpView(CreateView):
     
