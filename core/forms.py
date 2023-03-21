@@ -94,3 +94,11 @@ class OrganizationSignupForm(UserCreationForm):
         user.save()
         return user
 
+class ContactForm(forms.Form):
+	first_name = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Your company name',
+        'class': 'w-full py-4 px-6 rounded-xl'
+    }), max_length = 50)
+	last_name = forms.CharField(max_length = 50)
+	email_address = forms.EmailField(max_length = 150)
+	message = forms.CharField(widget = forms.Textarea, max_length = 2000)
