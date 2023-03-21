@@ -4,14 +4,14 @@ from .models import User
 from django.db import transaction
 
 USER_CHOICES = [
-    ('job seeker', 'Job Seeker'),
-    ('organization', 'Organization'),
+    (1, 'Job Seeker'),
+    (2, 'Organization'),
 ]
 
-class SignUpForm(AuthenticationForm):
+class SignUpForm(forms.Form):
     user_choice = forms.ChoiceField(widget=forms.RadioSelect, choices=USER_CHOICES)
 
-class LoginForm(AuthenticationForm):
+class LoginForm(forms.Form):
     user_choice = forms.ChoiceField(widget=forms.RadioSelect, choices=USER_CHOICES)
 
 # Login and Signup forms for Job Seekers 
