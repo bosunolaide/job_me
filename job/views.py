@@ -1,7 +1,7 @@
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
-from core.decorators import organization_required
+from core.decorators import login_required, organization_required
 
 from .forms import NewJobForm, EditJobForm
 from .models import Category, Location, Job

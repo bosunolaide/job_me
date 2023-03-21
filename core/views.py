@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from django.contrib.auth.views import LoginView
+# from django.contrib.auth.views import LoginView
 
 from django.contrib import auth, messages
 
@@ -40,23 +40,17 @@ def signup(request):
             
     return render(request, "core/signup.html", {'form':form})
 
-class UserLoginView(LoginView):
-    
-    redirect_authenticated_user = True
-    template_name='core/login.html' 
-    authentication_form=LoginForm
-
-    def login(request):
-        if request.method == 'POST':
-            form = LoginForm(request.POST)     
-            if form.is_valid() and form.fields['user_choice'].choices[1]:
-                return redirect('/login/job-sekers/')
-            elif form.is_valid() and form.fields['user_choice'].choices[2]:
-                return redirect('/login/organizations/')
-            else:
-                form = LoginForm()
-                
-            return render(request, "core/login.html", {'form':form})
+def login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)     
+        if form.is_valid() and form.fields['user_choice'].choices[1]:
+            return redirect('/login/job-seekers/')
+        elif form.is_valid() and form.fields['user_choice'].choices[2]:
+            return redirect('/login/organizations/')
+    else:
+        form = LoginForm()
+            
+    return render(request, "core/login.html", {'form':form})
 
 class ApplicantSignUpView(CreateView):
     model = User
