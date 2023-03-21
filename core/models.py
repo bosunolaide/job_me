@@ -11,9 +11,9 @@ class User(AbstractUser):
 
 
 class Contact(models.Model):
-    title = models.CharField(max_length=100)
+    subject = models.CharField(max_length=100)
     name = models.CharField(max_length=80)
-    email = models.EmailField(max_length=150)
+    email_address = models.EmailField(max_length=150)
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_attended = models.BooleanField(default=False)

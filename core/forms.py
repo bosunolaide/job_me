@@ -97,10 +97,10 @@ class OrganizationSignupForm(UserCreationForm):
 class ContactForm(forms.Form):
     class Meta():
         model = Contact
-        fields = ('title', 'name', 'email', 'message')
+        fields = ('subject', 'name', 'email_address', 'message')
     
-    title = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': 'Message Title',
+    subject = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Message Subject',
         'class': 'w-full py-4 px-6 rounded-xl'
     }), max_length = 100)
 

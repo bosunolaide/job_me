@@ -4,6 +4,10 @@ from django.shortcuts import render, redirect
 
 from django.contrib import auth, messages
 
+from django.core.mail import send_mail, BadHeaderError
+
+from django.http import HttpResponse
+
 from django.views.generic import RedirectView, CreateView, FormView
 
 from job.models import Category, Location, Job
@@ -184,3 +188,23 @@ class LogoutView(RedirectView):
         messages.success(request, 'You have logged out successfully!')
         return super(LogoutView, self).get(request, *args, **kwargs)
 
+def contact(request):
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		if form.is_valid():
+			subject = form.subject 
+			body = {                
+			'name': form.cleaned_data['name'], 
+			'email_address': form.cleaned_data['email_address'], 
+			'message':form.cleaned_data['message'], 
+			}
+			message = "\n".join(body.values())
+
+			try:
+				send_mail(subject, message, 'admin@example.com', ['admin@example.com']) 
+			except BadHeaderError:
+				return HttpResponse('Invalid header found.')
+			return redirect ("/")
+      
+	form = ContactForm()
+	return render(request, "core/contact-us.html", {'form':form})
