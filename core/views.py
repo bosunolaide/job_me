@@ -29,27 +29,32 @@ def about(request):
     return render(request, 'core/about-us.html')
 
 def signup(request):
-    form = SignUpForm()
-    if form.user_choice == 'job seeker':
-        return redirect(request, 'core/jobseeker-signup.html')
-    elif form.user_choice == 'organization':
-        return redirect(request, 'core/organization-signup.html')
-    else:
-        return render(request, "core/signup.html", {'form':form})
+    form = SignUpForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            if form.fields['user_choice'].choices['job-seeker']:
+                return redirect(request, 'core/jobseeker-signup.html')
+            elif form.fields['user_choice'].choices['organization']:
+                return redirect(request, 'core/organization-signup.html')
+            
+    return render(request, "core/signup.html", {'form':form})
 
 class UserLoginView(LoginView):
     
+    redirect_authenticated_user = True
     template_name='core/login.html' 
     authentication_form=LoginForm
 
     def login(request):
-        form = LoginForm()
-        if form.user_choice == 'job seeker':
-            return redirect(request, 'core/jobseeker-login.html')
-        elif form.user_choice == 'organization':
-            return redirect(request, 'core/organization-login.html')
-        else:
-            return render(request, "core/login.html", {'form':form})
+        form = LoginForm(request.POST)
+        if request.method == 'POST':
+            if form.is_valid():
+                if form.fields['user_choice'].choices['job-seeker']:
+                    return redirect(request, 'core/jobseeker-login.html')
+                elif form.fields['user_choice'].choices['organization']:
+                    return redirect(request, 'core/organization-login.html')
+
+        return render(request, "core/login.html", {'form':form})
 
 class ApplicantSignUpView(CreateView):
     
