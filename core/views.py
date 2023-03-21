@@ -26,9 +26,6 @@ def index(request):
         'jobs': jobs,
     })
 
-def contact(request):
-    return render(request, 'core/contact-us.html')
-
 def about(request):
     return render(request, 'core/about-us.html')
 
