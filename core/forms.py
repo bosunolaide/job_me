@@ -95,7 +95,7 @@ class OrganizationSignupForm(UserCreationForm):
         return user
 
 class ContactForm(forms.Form):
-    class Meta(forms.Form.Meta):
+    class Meta():
         model = Contact
         fields = ('title', 'name', 'email', 'message')
     
@@ -114,6 +114,6 @@ class ContactForm(forms.Form):
         'class': 'w-full py-4 px-6 rounded-xl'
     }),max_length = 150)
 
-    message = forms.TextField(widget = forms.Textarea(attrs={
+    message = forms.CharField(widget = forms.Textarea(attrs={
                 'class': 'w-full py-4 px-6 rounded-xl'
             }), max_length = 2000)
