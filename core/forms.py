@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import User
+from .models import User, Contact
 from django.db import transaction
 
 USER_CHOICES = [
@@ -95,10 +95,25 @@ class OrganizationSignupForm(UserCreationForm):
         return user
 
 class ContactForm(forms.Form):
-	first_name = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': 'Your company name',
+    class Meta(forms.Form.Meta):
+        model = Contact
+        fields = ('title', 'name', 'email', 'message')
+    
+    title = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Message Title',
         'class': 'w-full py-4 px-6 rounded-xl'
-    }), max_length = 50)
-	last_name = forms.CharField(max_length = 50)
-	email_address = forms.EmailField(max_length = 150)
-	message = forms.CharField(widget = forms.Textarea, max_length = 2000)
+    }), max_length = 100)
+
+    name = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Your full name',
+        'class': 'w-full py-4 px-6 rounded-xl'
+    }), max_length = 80)
+
+    email_address = forms.EmailField(widget=forms.EmailInput(attrs={
+        'placeholder': 'Your email address',
+        'class': 'w-full py-4 px-6 rounded-xl'
+    }),max_length = 150)
+
+    message = forms.TextField(widget = forms.Textarea(attrs={
+                'class': 'w-full py-4 px-6 rounded-xl'
+            }), max_length = 2000)
