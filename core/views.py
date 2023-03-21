@@ -68,7 +68,7 @@ class ApplicantSignUpView(CreateView):
             if form.is_valid():
                 form.save()
 
-                return user_type, redirect('/accounts/login/job-seekers')
+                return user_type, redirect('/login/job-seekers')
         else:
             form = JobSeekerSignupForm()
 
@@ -89,7 +89,7 @@ class OrganizationSignUpView(CreateView):
             if form.is_valid():
                 form.save()
 
-                return user_type, redirect('/accounts/login/organizations')
+                return user_type, redirect('/login/organizations')
         else:
             form = OrganizationSignupForm()
 
@@ -164,7 +164,7 @@ class OrganizationLoginView(FormView):
 
 class LogoutView(RedirectView):
 
-    url = '/accounts/login/'
+    url = 'login/'
 
     def get(self, request, *args, **kwargs):
         auth.logout(request)
