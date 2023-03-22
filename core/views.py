@@ -34,29 +34,10 @@ def about(request):
     return render(request, 'core/about-us.html')
 
 def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            if form.fields['user_choice'].choices[1]:
-                return redirect('/signup/organizations/')
-            else:
-                return redirect('/signup/job-seekers/')
-    else:
-        form = SignUpForm()
-            
-    return render(request, "core/signup.html", {'form':form})
+    return render(request, "core/signup.html")
 
 def login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)     
-        if form.is_valid() and form.fields['user_choice'].choices[1]:
-            return redirect('/login/job-seekers/')
-        elif form.is_valid() and form.fields['user_choice'].choices[2]:
-            return redirect('/login/organizations/')
-    else:
-        form = LoginForm()
-            
-    return render(request, "core/login.html", {'form':form})
+    return render(request, "core/login.html")
 
 def applicantsignup(request):
     if request.method == 'POST':
