@@ -41,8 +41,7 @@ def detail(request, pk):
         'related_jobs': related_jobs
     })
 
-
-@organization_required
+@login_required
 def new(request):
     if request.method == 'POST':
         form = NewJobForm(request.POST, request.FILES)
@@ -62,7 +61,7 @@ def new(request):
     })
 
 
-@organization_required
+@login_required
 def edit(request, pk):
     job = get_object_or_404(Job, pk=pk, created_by=request.user)
 
@@ -82,7 +81,7 @@ def edit(request, pk):
     })
 
 
-@organization_required
+@login_required
 def delete(request, pk):
     job = get_object_or_404(Job, pk=pk, created_by=request.user)
     job.delete()

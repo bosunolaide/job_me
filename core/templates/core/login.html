@@ -3,28 +3,15 @@
 {% block title %}Account Log In{% endblock %}
 
 {% block content %}
+<h1 class="mb-6 text-3xl">Account Log In</h1>
 <div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
     <h3 class="mb-6 text-3xl">Choose your Account type</h3>
     
-    <form method="post" action=".">
-        {% csrf_token %}
+    <div class="py-6 px-6 flex justify-between items-center border-b border-gray-200">
+        <a href="{% url 'core:organization-login' %}" class="mt-2 py-4 px-8 inline-block bg-teal-500 text-lg rounded-xl text-white">I am a Company</a>
 
-        <div class="mb-3">
-            {{ form.user_choice }}
-        </div>
+        <a href="{% url 'core:jobseeker-login' %}" class="mt-2 py-4 px-8 inline-block bg-teal-500 text-lg rounded-xl text-white">I am a Job Seeker</a>
+   </div>
 
-        
-        {% if form.errors or form.non_field_errors %}
-            <div class="mb-3 p-6 bg-red-100 rounded-xl">
-                {% for field in form %}
-                    {{ field.errors }}
-                {% endfor %}
-
-                {{ form.non_field_errors }}
-            </div>
-        {% endif %}
-
-        <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Go</button>
-    </form>
 </div>
 {% endblock %}

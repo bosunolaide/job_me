@@ -26,16 +26,21 @@ def index(request):
         'jobs': jobs,
     })
 
+def contact(request):
+    form = ContactForm()
+    return render(request, 'core/contact-us.html', {'form':form})
+
 def about(request):
     return render(request, 'core/about-us.html')
 
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        if form.is_valid() and form.fields['user_choice'].choices[1]:
-            return redirect('/signup/job-seekers/')
-        elif form.is_valid() and form.fields['user_choice'].choices[2]:
-            return redirect('/signup/organizations/')
+        if form.is_valid():
+            if form.fields['user_choice'].choices[1]:
+                return redirect('/signup/organizations/')
+            else:
+                return redirect('/signup/job-seekers/')
     else:
         form = SignUpForm()
             
@@ -53,34 +58,35 @@ def login(request):
             
     return render(request, "core/login.html", {'form':form})
 
-class ApplicantSignUpView(CreateView):
-    model = User
-    form_class = JobSeekerSignupForm
-    template_name = 'core/jobseeker-signup.html'
-    success_url = '/'
-
-    extra_context = {
-        'title': 'Job-Seekers Signup'
-    }
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return redirect(self.get_success_url())
-        return super().dispatch(self.request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-
-        form = self.form_class(data=request.POST)
+def applicantsignup(request):
+    if request.method == 'POST':
+        form = JobSeekerSignupForm(request.POST)
 
         if form.is_valid():
-            user = form.save(commit=False)
-            password = form.cleaned_data.get("password1")
-            user_type = 'job-seeker'
-            user.set_password(password)
-            user.save()
-            return user_type, redirect('/login/job-seekers/')
-        else:
-            return render(request, 'core/jobseeker-signup.html', {'form': form})
+            form.save()
+
+            return redirect('/login/job-seekers/')
+    else:
+        form = JobSeekerSignupForm()
+
+    return render(request, 'core/jobseeker-signup.html', {
+        'form': form
+    })
+
+def organizationsignup(request):
+    if request.method == 'POST':
+        form = OrganizationSignupForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('/login/organizations/')
+    else:
+        form = OrganizationSignupForm()
+
+    return render(request, 'core/organization-signup.html', {
+        'form': form
+    })
 
 class OrganizationSignUpView(CreateView):
     model = User
@@ -103,7 +109,7 @@ class OrganizationSignUpView(CreateView):
 
         if form.is_valid():
             user = form.save(commit=False)
-            password = form.cleaned_data.get("password1")
+            password = form.cleaned_data['password1']
             user_type = 'organization'
             user.set_password(password)
             user.save()
@@ -178,18 +184,18 @@ class OrganizationLoginView(FormView):
 
 class LogoutView(RedirectView):
 
-    url = 'login/'
+    url = '/'
 
     def get(self, request, *args, **kwargs):
         auth.logout(request)
         messages.success(request, 'You have logged out successfully!')
         return super(LogoutView, self).get(request, *args, **kwargs)
-
+"""
 def contact(request):
 	if request.method == 'POST':
 		form = ContactForm(request.POST)
 		if form.is_valid():
-			subject = form.subject 
+			subject = form.cleaned_data['subject'] 
 			body = {                
 			'name': form.cleaned_data['name'], 
 			'email_address': form.cleaned_data['email_address'], 
@@ -205,3 +211,4 @@ def contact(request):
       
 	form = ContactForm()
 	return render(request, "core/contact-us.html", {'form':form})
+"""
