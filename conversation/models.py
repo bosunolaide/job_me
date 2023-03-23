@@ -1,8 +1,9 @@
 from django.conf import settings
-from django.contrib.auth.models import User
+from core.models import User
 from django.db import models
 
 from job.models import Job
+
 
 class Conversation(models.Model):
     job = models.ForeignKey(Job, related_name='conversations', on_delete=models.CASCADE)
