@@ -1,13 +1,49 @@
 from django import forms
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import User, Contact
 from django.db import transaction
 
 
 # Login and Signup forms for Job Seekers 
+class UserLoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(
+        label="Password",
+        strip=False,
+        widget=forms.PasswordInput,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = None
+        self.fields['email'].widget.attrs.update({'placeholder': 'Enter Email', 'class': 'w-full py-4 px-6 rounded-xl'})
+        self.fields['password'].widget.attrs.update({'placeholder': 'Enter Password', 'class': 'w-full py-4 px-6 rounded-xl'})
+
+    def clean(self, *args, **kwargs):
+        email = self.cleaned_data.get("email")
+        password = self.cleaned_data.get("password")
+
+        if email and password:
+            self.user = authenticate(email=email, password=password)
+
+            if self.user is None:
+                raise forms.ValidationError("User Does Not Exist.")
+            if not self.user.check_password(password):
+                raise forms.ValidationError("Password Does not Match.")
+            if not self.user.is_active:
+                raise forms.ValidationError("User is not Active.")
+
+        return super(UserLoginForm, self).clean(*args, **kwargs)
+
+    def get_user(self):
+        return self.user
+
+
+
 class JobSeekerLoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': 'Your username',
+    email = forms.EmailField(widget=forms.TextInput(attrs={
+        'placeholder': 'Your email',
         'class': 'w-full py-4 px-6 rounded-xl'
     }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -18,10 +54,10 @@ class JobSeekerLoginForm(AuthenticationForm):
 class JobSeekerSignupForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('fullname', 'email', 'password1', 'password2')
     
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': 'Your username',
+    fullname = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Your full name',
         'class': 'w-full py-4 px-6 rounded-xl'
     }))
     email = forms.CharField(widget=forms.EmailInput(attrs={
@@ -41,13 +77,14 @@ class JobSeekerSignupForm(UserCreationForm):
     def save(self):
         user = super().save(commit=False)
         user.is_applicant = True
+        user.is_active = True
         user.save()
         return user
 
 # Login and Signup forms for Organizations
 class OrganizationLoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': 'Your company name',
+    email = forms.EmailField(widget=forms.TextInput(attrs={
+        'placeholder': 'Your company email',
         'class': 'w-full py-4 px-6 rounded-xl'
     }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -107,3 +144,9 @@ class ContactForm(forms.Form):
     message = forms.CharField(widget = forms.Textarea(attrs={
                 'class': 'w-full py-4 px-6 rounded-xl'
             }), max_length = 2000)
+    
+    @transaction.atomic
+    def save(self):
+        contact = super().save(commit=False)
+        contact.save()
+        return contact

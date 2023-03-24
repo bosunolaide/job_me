@@ -73,7 +73,7 @@ class OrganizationSignUpView(CreateView):
     model = User
     form_class = OrganizationSignupForm
     template_name = 'core/organization-signup.html'
-    success_url = '/'
+    success_url = '/login/organizations/'
 
     extra_context = {
         'title': 'Organizations Signup'
@@ -89,7 +89,7 @@ class OrganizationSignUpView(CreateView):
         form = self.form_class(data=request.POST)
 
         if form.is_valid():
-            user = form.save(commit=False)
+            user = form.save()
             password = form.cleaned_data['password1']
             user_type = 'organization'
             user.set_password(password)
@@ -102,7 +102,7 @@ class OrganizationSignUpView(CreateView):
 class ApplicantLoginView(FormView):
 
     success_url = '/'
-    form_class = JobSeekerLoginForm
+    form_class = UserLoginForm
     template_name = 'core/jobseeker-login.html'
 
     extra_context = {
@@ -134,7 +134,7 @@ class ApplicantLoginView(FormView):
 class OrganizationLoginView(FormView):
 
     success_url = '/'
-    form_class = OrganizationLoginForm
+    form_class = UserLoginForm
     template_name = 'core/organization-login.html'
 
     extra_context = {
