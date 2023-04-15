@@ -25,13 +25,14 @@ class Location(models.Model):
         return self.name
 
 class Job(models.Model):
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='jobs', on_delete=models.CASCADE)
     category = models.ForeignKey(Category, related_name='jobs', on_delete=models.CASCADE)
     location = models.ForeignKey(Location, related_name='jobs', on_delete=models.CASCADE)
     job_title = models.CharField(max_length=255)
     job_description = models.TextField(blank=True, null=True)
     company_logo = models.ImageField(upload_to='job_images', blank=True, null=True)
     is_filled = models.BooleanField(default=False)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='jobs', on_delete=models.CASCADE)
+    company_name = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
