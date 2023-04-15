@@ -17,6 +17,18 @@ class Conversation(models.Model):
 class ConversationMessage(models.Model):
     conversation = models.ForeignKey(Conversation, related_name='messages', on_delete=models.CASCADE)
     cover_letter = models.TextField()
-    curriculum_vitae = models.FileField(upload_to='cv_pdfs/', default="0000.pdf")
+    
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='created_messages', on_delete=models.CASCADE)
+
+
+class CVModel(models.Model):
+    name = models.ForeignKey(ConversationMessage.created_by, related_name='name', on_delete=models.CASCADE)
+    curriculum_vitae = models.FileField(upload_to='cv_pdfs/', default="0000.pdf")
+
+    class Meta:
+        ordering = ['name']
+    
+    def __str__(self):
+        return f"{self.name}"
+   
