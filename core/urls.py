@@ -9,6 +9,7 @@ app_name = 'core'
 urlpatterns = [
     path('', views.index, name='index'),
     path('contact-us/', views.contact, name='contact-us'),
+    path('contact-thanks/', views.contact_thanks, name='contact-thanks'),
     path('about-us/', views.about, name='about-us'),
     path('signup/', views.signup, name='signup'),
     path('signup/job-seekers/', views.applicantsignup, name='jobseeker-signup'),
