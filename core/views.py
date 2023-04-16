@@ -29,14 +29,14 @@ def index(request):
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
-        
+
         if form.is_valid():
             form.save()
-            
-            return redirect('/core/contact-thanks.html/')
-        else:
-            form = ContactForm()
-            
+
+            return redirect('/contact-thanks/')
+    else:
+        form = ContactForm()
+
     return render(request, 'core/contact-us.html', {'form':form})
 
 def about(request):

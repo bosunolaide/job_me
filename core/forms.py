@@ -121,7 +121,7 @@ class OrganizationSignupForm(UserCreationForm):
         user.save()
         return user
 
-class ContactForm(forms.Form):
+class ContactForm(forms.ModelForm):
     class Meta():
         model = Contact
         fields = ('subject', 'name', 'email_address', 'message')
