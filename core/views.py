@@ -27,7 +27,16 @@ def index(request):
     })
 
 def contact(request):
-    form = ContactForm()
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        
+        if form.is_valid():
+            form.save()
+            
+            return redirect('/core/contact-thanks.html/')
+        else:
+            form = ContactForm()
+            
     return render(request, 'core/contact-us.html', {'form':form})
 
 def about(request):
