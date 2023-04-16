@@ -16,12 +16,12 @@ def jobs(request):
 
     if category_id:
         jobs = jobs.filter(category_id=category_id)
-    
+
     if location_id:
         jobs = jobs.filter(location_id=location_id)
 
     if query:
-        jobs = jobs.filter(Q(name__icontains=query) | Q(description__icontains=query))
+        jobs = jobs.filter(Q(job_title__icontains=query) | Q(job_description__icontains=query))
 
     return render(request, 'job/jobs.html', {
         'jobs': jobs,
@@ -60,7 +60,6 @@ def new(request):
         'title': 'New Job',
     })
 
-
 @login_required
 def edit(request, pk):
     job = get_object_or_404(Job, pk=pk, created_by=request.user)
@@ -79,7 +78,6 @@ def edit(request, pk):
         'form': form,
         'title': 'Edit Job',
     })
-
 
 @login_required
 def delete(request, pk):
