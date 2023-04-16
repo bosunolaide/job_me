@@ -5,7 +5,7 @@ from .models import User, Contact
 from django.db import transaction
 
 
-# Login and Signup forms for Job Seekers 
+# Login and Signup forms for Job Seekers
 class UserLoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(
@@ -54,10 +54,14 @@ class JobSeekerLoginForm(AuthenticationForm):
 class JobSeekerSignupForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('fullname', 'email', 'password1', 'password2')
-    
-    fullname = forms.CharField(widget=forms.TextInput(attrs={
-        'placeholder': 'Your full name',
+        fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
+
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Your first name',
+        'class': 'w-full py-4 px-6 rounded-xl'
+    }))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Your last name',
         'class': 'w-full py-4 px-6 rounded-xl'
     }))
     email = forms.CharField(widget=forms.EmailInput(attrs={
@@ -95,10 +99,14 @@ class OrganizationLoginForm(AuthenticationForm):
 class OrganizationSignupForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('companyname', 'email', 'password1', 'password2')
-    
-    companyname = forms.CharField(widget=forms.TextInput(attrs={
+        fields = ('first_name', 'last_name', 'email', 'password1', 'password2')
+
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Your company name',
+        'class': 'w-full py-4 px-6 rounded-xl'
+    }))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder': 'Your company address',
         'class': 'w-full py-4 px-6 rounded-xl'
     }))
     email = forms.CharField(widget=forms.EmailInput(attrs={
@@ -125,7 +133,7 @@ class ContactForm(forms.ModelForm):
     class Meta():
         model = Contact
         fields = ('subject', 'name', 'email_address', 'message')
-    
+
     subject = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Message Subject',
         'class': 'w-full py-4 px-6 rounded-xl'
@@ -144,7 +152,8 @@ class ContactForm(forms.ModelForm):
     message = forms.CharField(widget = forms.Textarea(attrs={
                 'class': 'w-full py-4 px-6 rounded-xl'
             }), max_length = 2000)
-    
+
+
     @transaction.atomic
     def save(self):
         contact = super().save(commit=False)
