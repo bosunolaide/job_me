@@ -48,6 +48,9 @@ def signup(request):
 def login(request):
     return render(request, "core/login.html")
 
+def contact_thanks(request):
+    return render(request, "core/contact-thanks.html")
+
 def applicantsignup(request):
     if request.method == 'POST':
         form = JobSeekerSignupForm(request.POST)
