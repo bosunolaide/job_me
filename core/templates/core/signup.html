@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Create Account{% endblock %}
+
+{% block content %}
+<h1 class="mb-6 text-3xl">Create Account</h1>
+<div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
+    <h3 class="mb-6 text-3xl">Choose your Account type</h3>
+    
+    <div class="py-6 px-6 flex justify-between items-center border-b border-gray-200">
+         <a href="{% url 'core:organization-signup' %}" class="mt-2 py-4 px-8 inline-block bg-teal-500 text-lg rounded-xl text-white">I am a Company</a>
+
+         <a href="{% url 'core:jobseeker-signup' %}" class="mt-2 py-4 px-8 inline-block bg-teal-500 text-lg rounded-xl text-white">I am a Job Seeker</a>
+    </div>
+
+</div>
+{% endblock %}
