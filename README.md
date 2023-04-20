@@ -1,10 +1,9 @@
 # job_me
 
-# job-me online portal
+# Online Job Portal
+
 ## Description
 This is an online portal where job vacancies can be posted by organizations, and prospective employees can apply. Employers can search for prospective employees based on experience, qualifications, and job specialty.  Also CVs can be uploaded online into a CV bank/repository/library by job applicants, for review by prospective employers who may be interested in engaging their services.
-![image](https://user-images.githubusercontent.com/72774774/233476860-973471af-9bcb-459d-8dc8-14d4b88a36f5.png)
-
 
 ## How To Contribute
 1. Fork the repository.
