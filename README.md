@@ -1,6 +1,6 @@
 # job_me
 
-# Online Job Portal
+## Online Job Portal
 
 ## Description
 This is an online portal where job vacancies can be posted by organizations, and prospective employees can apply. Employers can search for prospective employees based on experience, qualifications, and job specialty.  Also CVs can be uploaded online into a CV bank/repository/library by job applicants, for review by prospective employers who may be interested in engaging their services.
@@ -17,3 +17,6 @@ This is an online portal where job vacancies can be posted by organizations, and
 9. Push changes to the new branch you created earlier, using command: git push origin development
 10. Finally, create a pull request to the project's development branch.
 11. Do not attempt to merge branches yourself, as pull requests would be reviewed before merging would be done.
+
+## Deployment
+The deployed web app can be accessed through https://bosunolaide.pythonanywhere.com/
