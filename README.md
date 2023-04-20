@@ -19,4 +19,4 @@ This is an online portal where job vacancies can be posted by organizations, and
 11. Do not attempt to merge branches yourself, as pull requests would be reviewed before merging would be done.
 
 ## Deployment
-The deployed web app can be accessed through [Job_Me](https://bosunolaide.pythonanywhere.com/)
+The deployed web app can be accessed on Python Anywhere through [Job_Me](https://bosunolaide.pythonanywhere.com/)
